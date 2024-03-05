@@ -1,1 +1,1 @@
-export class Track {}
+export class TrackEntity {}

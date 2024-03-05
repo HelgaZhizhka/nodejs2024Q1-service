@@ -1,1 +1,1 @@
-export class Album {}
+export class AlbumEntity {}

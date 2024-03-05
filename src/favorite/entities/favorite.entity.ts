@@ -1,1 +1,1 @@
-export class Favorite {}
+export class FavoriteEntity {}

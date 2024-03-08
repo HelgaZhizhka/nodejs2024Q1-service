@@ -1,79 +1,73 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
+
+import { inMemoryDbService } from '@/inMemoryDb/inMemoryDb.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './interface/user.interface';
-import { isUUID } from 'class-validator';
+import { UserEntity } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
-  // constructor(@Inject('USER_REPOSITORY') private users: User[]) {}
+  constructor(private db: inMemoryDbService) {}
 
-  create(createUserDto: CreateUserDto) {
-    const newUser: User = {
+  create(createUserDto: CreateUserDto): UserEntity {
+    const { login, password } = createUserDto;
+
+    const isUserExists = this.db.users.some((user) => user.login === login);
+
+    if (isUserExists) {
+      throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
+    }
+
+    const newUser: User = new UserEntity({
       id: uuidv4(),
-      login: createUserDto.login,
-      password: createUserDto.password,
+      login,
+      password,
       version: 1,
       createdAt: Date.now(),
       updatedAt: Date.now(),
-    };
+    });
 
-    // this.users.push(newUser);
-    // return this.users.map((user) => {
-    //   const { password, ...userWithoutPassword } = user;
-    //   return userWithoutPassword;
-    // });
+    this.db.users.push(newUser);
+    return newUser;
   }
 
-  // findAll(): User[] {
-  //   // return this.users;
-  // }
-
-  findOne(id: string) {
-    if (!isUUID(id)) {
-      throw new HttpException('Invalid UUID', HttpStatus.BAD_REQUEST);
-    }
-
-    // return this.users.find((user) => user.id === id);
+  findAll(): UserEntity[] {
+    return this.db.users;
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
-    if (!isUUID(id)) {
-      throw new HttpException('Invalid UUID', HttpStatus.BAD_REQUEST);
+  findOne(id: string): UserEntity {
+    const user = this.db.users.find((user) => user.id === id);
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
-    // const user = this.users.find((user) => user.id === id);
+    return user;
+  }
 
-    // if (!user) {
-    //   throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-    // }
+  update(id: string, updateUserDto: UpdateUserDto): UserEntity {
+    const user = this.findOne(id);
 
-    // if (updateUserDto.oldPassword !== user.password) {
-    //   throw new HttpException('Wrong old password', HttpStatus.FORBIDDEN);
-    // }
+    if (user.password !== updateUserDto.oldPassword) {
+      throw new HttpException('Invalid password', HttpStatus.BAD_REQUEST);
+    }
 
-    // user.setPassword(updateUserDto.newPassword);
-    // user.incrementVersion();
-    // user.setUpdatedAt();
+    user.password = updateUserDto.newPassword;
+    user.updatedAt = Date.now();
+    user.version++;
 
-    // return user;
+    return user;
   }
 
   remove(id: string) {
-    if (!isUUID(id)) {
-      throw new HttpException('Invalid UUID', HttpStatus.BAD_REQUEST);
+    const userIndex = this.db.users.findIndex((user) => user.id === id);
+
+    if (userIndex === -1) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
-    // const index = this.users.findIndex((user) => user.id === id);
-
-    // if (index === -1) {
-    //   throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-    // }
-
-    // const user = this.users[index];
-    // this.users.splice(index, 1);
-
-    // return user;
+    this.db.users = this.db.users.filter((user) => user.id !== id);
   }
 }

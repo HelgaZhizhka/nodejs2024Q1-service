@@ -5,22 +5,23 @@ import { Artist } from '@/artist/interface/artist.interface';
 import { Favorite } from '@/favorite/interface/favorite.interface';
 import { Track } from '@/track/interface/track.interface';
 
-export const enum DbTable {
+export const enum DbEntities {
   USERS = 'users',
-  ALBUMS = 'albums',
-  ARTISTS = 'artists',
   TRACKS = 'tracks',
+  ARTISTS = 'artists',
+  ALBUMS = 'albums',
 }
 
+
 @Injectable()
-export class DbService {
+export class inMemoryDbService {
   users: User[] = [];
-  albums: Album[] = [];
   artists: Artist[] = [];
   tracks: Track[] = [];
-  favs: Favorite = {
+  albums: Album[] = [];
+  favorites: Favorite = {
     artists: [],
-    albums: [],
     tracks: [],
+    albums: [],
   };
 }

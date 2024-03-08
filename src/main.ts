@@ -1,21 +1,29 @@
 if (!process.env.IS_TS_NODE) {
   require('module-alias/register');
 }
-
+import { readFile } from 'fs/promises';
+import { join } from 'path';
+import { parse } from 'yaml';
 import { NestFactory } from '@nestjs/core';
-import { ConfigService } from '@nestjs/config';
+import { SwaggerModule } from '@nestjs/swagger';
+import 'dotenv/config';
 
 import { AppModule } from '@/app.module';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const configService: ConfigService = app.get(ConfigService);
-  app.setGlobalPrefix('api');
+  const PORT = parseInt(process.env.PORT) || 4000;
+  // app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe());
-  const PORT = configService.get('PORT') || 4000;
+
+  const swaggerConfig = parse(
+    await readFile(join(__dirname, '../doc/api.yaml'), 'utf8'),
+  );
+
+  SwaggerModule.setup('docs', app, swaggerConfig);
+
   await app.listen(PORT);
   console.log(`Server is running on port ${PORT}`);
 }
 bootstrap();
-

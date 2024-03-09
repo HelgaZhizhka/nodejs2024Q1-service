@@ -1,6 +1,7 @@
 if (!process.env.IS_TS_NODE) {
   require('module-alias/register');
 }
+
 import { readFile } from 'fs/promises';
 import { join } from 'path';
 import { parse } from 'yaml';
@@ -14,7 +15,6 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const PORT = parseInt(process.env.PORT) || 4000;
-  // app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe());
 
   const swaggerConfig = parse(

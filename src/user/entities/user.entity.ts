@@ -1,5 +1,6 @@
 import { Exclude } from "class-transformer";
-import { User } from '../interface/user.interface';
+
+import { User } from '@/user//interface/user.interface';
 
 export class UserEntity implements User {
   id: string;
@@ -11,6 +12,12 @@ export class UserEntity implements User {
   updatedAt: number;
 
   constructor(partial: Partial<UserEntity>) {
-    Object.assign(this, partial);
+    const { id, login, password, version, createdAt, updatedAt } = partial;
+    this.id = id;
+    this.login = login;
+    this.password = password;
+    this.version = version;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
   }
 }

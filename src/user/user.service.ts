@@ -12,18 +12,17 @@ export class UserService {
   constructor(private db: inMemoryDbService) {}
 
   create(createUserDto: CreateUserDto): UserEntity {
-    const { login, password } = createUserDto;
+    const { login } = createUserDto;
 
     const isUserExists = this.db.users.some((user) => user.login === login);
 
     if (isUserExists) {
-      throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
+      throw new HttpException('User already exists', HttpStatus.CONFLICT);
     }
 
     const newUser: User = new UserEntity({
       id: uuidv4(),
-      login,
-      password,
+      ...createUserDto,
       version: 1,
       createdAt: Date.now(),
       updatedAt: Date.now(),
@@ -49,12 +48,13 @@ export class UserService {
 
   update(id: string, updateUserDto: UpdateUserDto): UserEntity {
     const user = this.findOne(id);
+    const { oldPassword, newPassword } = updateUserDto;
 
-    if (user.password !== updateUserDto.oldPassword) {
-      throw new HttpException('Invalid password', HttpStatus.BAD_REQUEST);
+    if (user.password !== oldPassword) {
+      throw new HttpException('Invalid password', HttpStatus.FORBIDDEN);
     }
 
-    user.password = updateUserDto.newPassword;
+    user.password = newPassword;
     user.updatedAt = Date.now();
     user.version++;
 
@@ -62,12 +62,8 @@ export class UserService {
   }
 
   remove(id: string) {
-    const userIndex = this.db.users.findIndex((user) => user.id === id);
-
-    if (userIndex === -1) {
-      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-    }
-
-    this.db.users = this.db.users.filter((user) => user.id !== id);
+    const user = this.findOne(id);
+    const userIndex = this.db.users.indexOf(user);
+    this.db.users.splice(userIndex, 1);
   }
 }

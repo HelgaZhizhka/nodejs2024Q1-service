@@ -1,9 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { v4 as uuidv4 } from 'uuid';
+
+import { inMemoryDbService } from '@/inMemoryDb/inMemoryDb.service';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
 
 @Injectable()
 export class TrackService {
+  constructor(private db: inMemoryDbService) {}
+  
   create(createTrackDto: CreateTrackDto) {
     return 'This action adds a new track';
   }

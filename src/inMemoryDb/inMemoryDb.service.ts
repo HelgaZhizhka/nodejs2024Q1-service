@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+
 import { User } from '@/user/interface/user.interface';
 import { Album } from '@/album/interface/album.interface';
 import { Artist } from '@/artist/interface/artist.interface';
@@ -24,4 +25,10 @@ export class inMemoryDbService {
     tracks: [],
     albums: [],
   };
+
+  checkEntity(entity: DbEntities): void {
+    if (!this[entity]) {
+      throw new Error(`Entity ${entity} does not exist`);
+    }
+  }
 }

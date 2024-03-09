@@ -20,14 +20,15 @@ export class UserService {
       throw new HttpException('User already exists', HttpStatus.CONFLICT);
     }
 
+    const id = uuidv4();
+
     const newUser: User = new UserEntity({
-      id: uuidv4(),
+      id,
       ...createUserDto,
       version: 1,
       createdAt: Date.now(),
       updatedAt: Date.now(),
     });
-
     this.db.users.push(newUser);
     return newUser;
   }
@@ -57,7 +58,6 @@ export class UserService {
     user.password = newPassword;
     user.updatedAt = Date.now();
     user.version++;
-
     return user;
   }
 

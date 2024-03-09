@@ -5,14 +5,7 @@ import { Album } from '@/album/interface/album.interface';
 import { Artist } from '@/artist/interface/artist.interface';
 import { Favorite } from '@/favorite/interface/favorite.interface';
 import { Track } from '@/track/interface/track.interface';
-
-export const enum DbEntities {
-  USERS = 'users',
-  TRACKS = 'tracks',
-  ARTISTS = 'artists',
-  ALBUMS = 'albums',
-}
-
+import { Entities } from '@/utils/enums';
 
 @Injectable()
 export class inMemoryDbService {
@@ -26,7 +19,7 @@ export class inMemoryDbService {
     albums: [],
   };
 
-  checkEntity(entity: DbEntities): void {
+  checkEntity(entity: Entities): void {
     if (!this[entity]) {
       throw new Error(`Entity ${entity} does not exist`);
     }

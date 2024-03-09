@@ -17,6 +17,10 @@ git clone {repository URL}
 npm install
 ```
 
+## Environment variables
+
+Create `.env` file in the root of the project and copy everything from `.env.example` into it.
+
 ## Running application
 
 ```

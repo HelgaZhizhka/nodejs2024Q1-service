@@ -74,3 +74,7 @@ npm run format
 Press <kbd>F5</kbd> to debug.
 
 For more information, visit: https://code.visualstudio.com/docs/editor/debugging
+
+## Documentation
+
+use path /doc to see OpenAPI documentation

@@ -16,6 +16,7 @@ export class FavoriteController {
   constructor(private readonly favoriteService: FavoriteService) {}
 
   @Get()
+  @HttpCode(200)
   findAll() {
     return this.favoriteService.findAll();
   }

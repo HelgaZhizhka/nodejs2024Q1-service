@@ -8,6 +8,6 @@ import { AlbumController } from './album.controller';
 @Module({
   controllers: [AlbumController],
   providers: [AlbumService, TrackService],
-  imports: [inMemoryDbModule]
+  imports: [inMemoryDbModule],
 })
 export class AlbumModule {}

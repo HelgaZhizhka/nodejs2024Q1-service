@@ -9,13 +9,7 @@ import { FavoriteModule } from '@/favorite/favorite.module';
 import { TrackModule } from '@/track/track.module';
 
 @Module({
-  imports: [
-    UserModule, 
-    ArtistModule, 
-    AlbumModule, 
-    FavoriteModule, 
-    TrackModule
-  ],
+  imports: [UserModule, ArtistModule, AlbumModule, FavoriteModule, TrackModule],
   controllers: [AppController],
   providers: [AppService],
 })

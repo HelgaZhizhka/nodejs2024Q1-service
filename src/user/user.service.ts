@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 
+import { Entities } from '@/utils/enums';
 import { inMemoryDbService } from '@/inMemoryDb/inMemoryDb.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -21,7 +22,6 @@ export class UserService {
     }
 
     const id = uuidv4();
-
     const newUser: User = new UserEntity({
       id,
       ...createUserDto,
@@ -29,22 +29,16 @@ export class UserService {
       createdAt: Date.now(),
       updatedAt: Date.now(),
     });
-    this.db.users.push(newUser);
+    this.db.addEntity(Entities.USERS, newUser);
     return newUser;
   }
 
-  findAll(): UserEntity[] {
-    return this.db.users;
+  findAll() {
+    return this.db.getAllEntities(Entities.USERS);
   }
 
-  findOne(id: string): UserEntity {
-    const user = this.db.users.find((user) => user.id === id);
-
-    if (!user) {
-      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
-    }
-
-    return user;
+  findOne(id: string) {
+    return this.db.findEntityById(id, Entities.USERS) as User;
   }
 
   update(id: string, updateUserDto: UpdateUserDto): UserEntity {
@@ -62,8 +56,6 @@ export class UserService {
   }
 
   remove(id: string) {
-    const user = this.findOne(id);
-    const userIndex = this.db.users.indexOf(user);
-    this.db.users.splice(userIndex, 1);
+    this.db.removeEntity(id, Entities.USERS);
   }
 }

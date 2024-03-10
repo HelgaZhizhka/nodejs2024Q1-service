@@ -1,12 +1,13 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 
 import { inMemoryDbService } from '@/inMemoryDb/inMemoryDb.service';
+import { TrackService } from '@/track/track.service';
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
 import { Album } from './interface/album.interface';
 import { AlbumEntity } from './entities/album.entity';
-import { TrackService } from '@/track/track.service';
+import { Entities } from '@/utils/enums';
 
 @Injectable()
 export class AlbumService {
@@ -17,12 +18,8 @@ export class AlbumService {
 
   create(createAlbumDto: CreateAlbumDto): AlbumEntity {
     const { artistId } = createAlbumDto;
-    const isAlbumExists = this.db.albums.some(
-      (album) => album.artistId === artistId,
-    );
-
-    if (isAlbumExists) {
-      throw new HttpException('Album already exists', HttpStatus.CONFLICT);
+    if (artistId) {
+      this.db.findEntityById(artistId, Entities.ARTISTS);
     }
 
     const id = uuidv4();
@@ -30,36 +27,31 @@ export class AlbumService {
       id,
       ...createAlbumDto,
     });
-    this.db.albums.push(newAlbum);
+    this.db.addEntity(Entities.ALBUMS, newAlbum);
     return newAlbum;
   }
 
-  findAll(): AlbumEntity[] {
-    return this.db.albums;
+  findAll() {
+    return this.db.getAllEntities(Entities.ALBUMS);
   }
 
   findOne(id: string): AlbumEntity {
-    const album = this.db.albums.find((album) => album.id === id);
-
-    if (!album) {
-      throw new HttpException('Album not found', HttpStatus.NOT_FOUND);
-    }
-
-    return album;
+    return this.db.findEntityById(id, Entities.ALBUMS) as Album;
   }
 
   update(id: string, updateAlbumDto: UpdateAlbumDto) {
     const album = this.findOne(id);
-    const updatedAlbum = { ...album, ...updateAlbumDto };
-    return updatedAlbum;
+    const { name, year, artistId } = updateAlbumDto;
+    album.name = name || album.name;
+    album.year = year || album.year;
+    album.artistId = artistId || album.artistId;
+    return album;
   }
 
   remove(id: string) {
-    const album = this.findOne(id);
-    this.trackService.onAlbumRemove(album.id);
-    //TODO need delete from favorites
-    const albumIndex = this.db.albums.indexOf(album);
-    this.db.albums.splice(albumIndex, 1);
+    this.trackService.onAlbumRemove(id);
+    this.db.removeFromFavorites(id, Entities.ALBUMS);
+    this.db.removeEntity(id, Entities.ALBUMS);
   }
 
   onArtistRemove(artistId: string) {

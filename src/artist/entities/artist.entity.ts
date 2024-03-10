@@ -1,4 +1,4 @@
-import { Artist } from "@/artist/interface/artist.interface";
+import { Artist } from '@/artist/interface/artist.interface';
 
 export class ArtistEntity implements Artist {
   id: string;

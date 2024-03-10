@@ -1,4 +1,6 @@
-import { IsInt, IsNotEmpty, IsOptional, IsString, IsUUID } from "class-validator";
+import { IsInt, IsNotEmpty, IsString, IsUUID } from 'class-validator';
+
+import { IsNullable } from '@/utils/isNullable.decorator';
 
 export class CreateAlbumDto {
   @IsString()
@@ -7,8 +9,8 @@ export class CreateAlbumDto {
 
   @IsInt()
   year: number;
-  
-  @IsOptional()
+
+  @IsNullable()
   @IsString()
   @IsNotEmpty()
   @IsUUID('4')

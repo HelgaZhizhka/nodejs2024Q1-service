@@ -1,4 +1,4 @@
-import { Album } from "../interface/album.interface";
+import { Album } from '@/album/interface/album.interface';
 
 export class AlbumEntity implements Album {
   id: string;

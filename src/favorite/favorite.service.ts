@@ -1,63 +1,50 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable, Scope } from '@nestjs/common';
 
 import { inMemoryDbService } from '@/inMemoryDb/inMemoryDb.service';
 import { Entities } from '@/utils/enums';
 import { Favorite } from './interface/favorite.interface';
-import { Track } from '@/track/interface/track.interface';
-import { Artist } from '@/artist/interface/artist.interface';
-import { Album } from '@/album/interface/album.interface';
-import { User } from '@/user/interface/user.interface';
 
-type DbEntity = User | Album | Artist | Track;
-
-@Injectable()
+@Injectable({ scope: Scope.DEFAULT })
 export class FavoriteService {
   constructor(private db: inMemoryDbService) {}
 
-  findAll() {
-    const favorites: Favorite = {
+  findAll(): Favorite {
+    const favorites = {
       artists: [],
       albums: [],
       tracks: [],
     };
-    Object.keys(this.db.favorites).forEach((entity) => {
-      favorites[entity] = this.db.favorites[entity].map((id) => {
-        return this.db[entity].find((item) => item.id === id);
-      });
+
+    this.db.favorites.artists.forEach((id) => {
+      const artist = this.db.artists.find((artist) => artist.id === id);
+      if (artist) {
+        favorites.artists.push(artist);
+      }
     });
+
+    this.db.favorites.albums.forEach((id) => {
+      const album = this.db.albums.find((album) => album.id === id);
+      if (album) {
+        favorites.albums.push(album);
+      }
+    });
+
+    this.db.favorites.tracks.forEach((id) => {
+      const track = this.db.tracks.find((track) => track.id === id);
+      if (track) {
+        favorites.tracks.push(track);
+      }
+    });
+
     return favorites;
   }
 
   private addToFavorites(id: string, entity: Entities) {
-    const item = (this.db[entity] as DbEntity[]).find((item) => item.id === id);
-
-    if (!item) {
-      throw new HttpException(
-        `${entity} not found`,
-        HttpStatus.UNPROCESSABLE_ENTITY,
-      );
-    }
-
-    if (this.db.favorites[entity].includes(id)) {
-      return { message: `${entity} is already in favorites` };
-    }
-
-    this.db.favorites[entity].push(id);
-    return { message: `${entity} added to favorites` };
+    this.db.addToFavorites(id, entity);
   }
 
   private removeFromFavorites(id: string, entity: Entities) {
-    const itemIndex = this.db.favorites[entity].indexOf(id);
-
-    if (itemIndex === -1) {
-      throw new HttpException(
-        `${entity} not in favorites`,
-        HttpStatus.NOT_FOUND,
-      );
-    }
-
-    this.db.favorites[entity].splice(itemIndex, 1);
-    return { message: `${entity} removed from favorites` };
+    this.db.removeFromFavorites(id, entity);
   }
 
   addArtist(id: string) {

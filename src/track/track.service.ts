@@ -2,11 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 
 import { inMemoryDbService } from '@/inMemoryDb/inMemoryDb.service';
+import { Entities } from '@/utils/enums';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
 import { TrackEntity } from './entities/track.entity';
 import { Track } from './interface/track.interface';
-import { Entities } from '@/utils/enums';
 
 @Injectable()
 export class TrackService {

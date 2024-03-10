@@ -1,4 +1,4 @@
-import { Track } from '../interface/track.interface';
+import { Track } from '@/track/interface/track.interface';
 
 export class TrackEntity implements Track {
   id: string;

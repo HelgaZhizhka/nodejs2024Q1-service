@@ -30,9 +30,11 @@ export class inMemoryDbService {
 
   findEntityById(id: string, entity: Entities) {
     const item = (this[entity] as DbEntity[]).find((item) => item.id === id);
+    
     if (!item) {
-      throw new HttpException(`${entity} not found`, HttpStatus.NOT_FOUND);
+      throw new HttpException(`${entity} with id: ${id} not found`, HttpStatus.NOT_FOUND);
     }
+
     return item;
   }
 
@@ -42,7 +44,10 @@ export class inMemoryDbService {
     );
 
     if (index === -1) {
-      throw new HttpException(`${entity} not found`, HttpStatus.NOT_FOUND);
+      throw new HttpException(
+        `${entity} with ${id} not found`,
+        HttpStatus.NOT_FOUND,
+      );
     }
 
     this[entity].splice(index, 1);

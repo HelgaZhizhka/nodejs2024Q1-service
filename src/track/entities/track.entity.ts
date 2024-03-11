@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 import { Track } from '@/track/interface/track.interface';
 
 export class TrackEntity implements Track {
@@ -8,11 +10,11 @@ export class TrackEntity implements Track {
   duration: number;
 
   constructor(partial: Partial<Track>) {
-    const { id, name, artistId, albumId, duration } = partial;
-    this.id = id;
+    const { name, artistId, albumId, duration } = partial;
+    this.id = uuidv4();
     this.name = name;
-    this.artistId = artistId;
-    this.albumId = albumId;
+    this.artistId = artistId ? artistId : null;
+    this.albumId = albumId ? albumId : null;
     this.duration = duration;
   }
 }

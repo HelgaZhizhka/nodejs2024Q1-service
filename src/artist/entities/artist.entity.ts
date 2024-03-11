@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 import { Artist } from '@/artist/interface/artist.interface';
 
 export class ArtistEntity implements Artist {
@@ -7,7 +9,7 @@ export class ArtistEntity implements Artist {
 
   constructor(partial: Partial<ArtistEntity>) {
     const { id, name, grammy } = partial;
-    this.id = id;
+    this.id = uuidv4();
     this.name = name;
     this.grammy = grammy;
   }

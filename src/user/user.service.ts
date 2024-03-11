@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { v4 as uuidv4 } from 'uuid';
+
 
 import { Entities } from '@/utils/enums';
 import { inMemoryDbService } from '@/inMemoryDb/inMemoryDb.service';
@@ -21,9 +21,7 @@ export class UserService {
       throw new HttpException('User already exists', HttpStatus.CONFLICT);
     }
 
-    const id = uuidv4();
     const newUser: User = new UserEntity({
-      id,
       ...createUserDto,
       version: 1,
       createdAt: Date.now(),

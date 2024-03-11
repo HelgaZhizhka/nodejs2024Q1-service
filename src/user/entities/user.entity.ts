@@ -1,6 +1,7 @@
 import { Exclude } from 'class-transformer';
+import { v4 as uuidv4 } from 'uuid';
 
-import { User } from '@/user//interface/user.interface';
+import { User } from '@/user/interface/user.interface';
 
 export class UserEntity implements User {
   id: string;
@@ -12,8 +13,8 @@ export class UserEntity implements User {
   updatedAt: number;
 
   constructor(partial: Partial<UserEntity>) {
-    const { id, login, password, version, createdAt, updatedAt } = partial;
-    this.id = id;
+    const { login, password, version, createdAt, updatedAt } = partial;
+    this.id = uuidv4();
     this.login = login;
     this.password = password;
     this.version = version;

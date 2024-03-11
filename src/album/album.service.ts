@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { v4 as uuidv4 } from 'uuid';
 
 import { inMemoryDbService } from '@/inMemoryDb/inMemoryDb.service';
 import { TrackService } from '@/track/track.service';
@@ -22,9 +21,7 @@ export class AlbumService {
       this.db.findEntityById(artistId, Entities.ARTISTS);
     }
 
-    const id = uuidv4();
     const newAlbum: Album = new AlbumEntity({
-      id,
       ...createAlbumDto,
     });
     this.db.addEntity(Entities.ALBUMS, newAlbum);
@@ -42,9 +39,10 @@ export class AlbumService {
   update(id: string, updateAlbumDto: UpdateAlbumDto) {
     const album = this.findOne(id);
     const { name, year, artistId } = updateAlbumDto;
-    album.name = name || album.name;
-    album.year = year || album.year;
-    album.artistId = artistId || album.artistId;
+    this.db.findEntityById(artistId, Entities.ARTISTS);
+    album.name = name;
+    album.year = year;
+    album.artistId = artistId;
     return album;
   }
 

@@ -40,7 +40,7 @@ export class TrackService {
   update(id: string, updateTrackDto: UpdateTrackDto) {
     const track = this.findOne(id);
     const { albumId, artistId, name, duration } = updateTrackDto;
-    
+
     if (artistId) {
       this.db.findEntityById(artistId, Entities.ARTISTS);
     }

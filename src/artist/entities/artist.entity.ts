@@ -8,7 +8,7 @@ export class ArtistEntity implements Artist {
   grammy: boolean;
 
   constructor(partial: Partial<ArtistEntity>) {
-    const { id, name, grammy } = partial;
+    const { name, grammy } = partial;
     this.id = uuidv4();
     this.name = name;
     this.grammy = grammy;

@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
-
 import { Entities } from '@/utils/enums';
 import { inMemoryDbService } from '@/inMemoryDb/inMemoryDb.service';
 import { CreateUserDto } from './dto/create-user.dto';

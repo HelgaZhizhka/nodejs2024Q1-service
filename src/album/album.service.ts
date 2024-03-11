@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 
-import { inMemoryDbService } from '@/inMemoryDb/inMemoryDb.service';
-import { TrackService } from '@/track/track.service';
+import { inMemoryDbService } from '../inMemoryDb/inMemoryDb.service';
+import { TrackService } from '../track/track.service';
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
 import { Album } from './interface/album.interface';
 import { AlbumEntity } from './entities/album.entity';
-import { Entities } from '@/utils/enums';
+import { Entities } from '../utils/enums';
 
 @Injectable()
 export class AlbumService {

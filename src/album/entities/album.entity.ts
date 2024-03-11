@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import { Album } from '@/album/interface/album.interface';
+import { Album } from '../../album/interface/album.interface';
 
 export class AlbumEntity implements Album {
   id: string;

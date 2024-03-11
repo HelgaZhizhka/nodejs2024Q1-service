@@ -1,7 +1,7 @@
 import { Injectable, Scope } from '@nestjs/common';
 
-import { inMemoryDbService } from '@/inMemoryDb/inMemoryDb.service';
-import { Entities } from '@/utils/enums';
+import { inMemoryDbService } from '../inMemoryDb/inMemoryDb.service';
+import { Entities } from '../utils/enums';
 import { Favorite } from './interface/favorite.interface';
 
 @Injectable({ scope: Scope.DEFAULT })

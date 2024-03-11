@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import { Track } from '@/track/interface/track.interface';
+import { Track } from '../../track/interface/track.interface';
 
 export class TrackEntity implements Track {
   id: string;

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
-import { inMemoryDbService } from '@/inMemoryDb/inMemoryDb.service';
-import { Entities } from '@/utils/enums';
+import { inMemoryDbService } from '../inMemoryDb/inMemoryDb.service';
+import { Entities } from '../utils/enums';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
 import { TrackEntity } from './entities/track.entity';

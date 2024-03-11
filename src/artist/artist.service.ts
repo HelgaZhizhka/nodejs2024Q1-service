@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 
-import { inMemoryDbService } from '@/inMemoryDb/inMemoryDb.service';
-import { AlbumService } from '@/album/album.service';
-import { TrackService } from '@/track/track.service';
+import { inMemoryDbService } from '../inMemoryDb/inMemoryDb.service';
+import { Entities } from '../utils/enums';
+import { AlbumService } from '../album/album.service';
+import { TrackService } from '../track/track.service';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
 import { ArtistEntity } from './entities/artist.entity';
 import { Artist } from './interface/artist.interface';
-import { Entities } from '@/utils/enums';
 
 @Injectable()
 export class ArtistService {

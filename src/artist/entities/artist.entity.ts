@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import { Artist } from '@/artist/interface/artist.interface';
+import { Artist } from '../../artist/interface/artist.interface';
 
 export class ArtistEntity implements Artist {
   id: string;

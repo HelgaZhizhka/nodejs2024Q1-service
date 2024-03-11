@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 
-import { inMemoryDbModule } from '@/inMemoryDb/inMemoryDb.module';
+import { inMemoryDbModule } from '../inMemoryDb/inMemoryDb.module';
 import { FavoriteService } from './favorite.service';
 import { FavoriteController } from './favorite.controller';
 

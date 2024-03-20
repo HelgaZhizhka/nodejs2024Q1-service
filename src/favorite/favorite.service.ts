@@ -2,7 +2,6 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
 import { PrismaService } from '../prisma/prisma.service';
 import { Entities, EntityToTable } from '../utils/enums';
-import { Favorites } from './interface/favorite.interface';
 
 @Injectable()
 export class FavoriteService {

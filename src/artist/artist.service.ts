@@ -45,7 +45,7 @@ export class ArtistService {
 
   async remove(artistId: string): Promise<void> {
     await this.findOne(artistId);
-    
+
     const favoritesContainingArtist = await this.prisma.favorite.findMany({
       where: {
         artists: {
@@ -62,6 +62,6 @@ export class ArtistService {
       });
     }
 
-    await this.prisma.artist.delete({ where: { id: artistId }});
+    await this.prisma.artist.delete({ where: { id: artistId } });
   }
 }

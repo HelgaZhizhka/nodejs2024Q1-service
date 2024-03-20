@@ -55,3 +55,5 @@ npm run format
 ## Documentation
 
 use path `/doc `to see OpenAPI documentation
+
+ip a

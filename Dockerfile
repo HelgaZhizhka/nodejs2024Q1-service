@@ -19,4 +19,6 @@ COPY . .
 
 EXPOSE $APP_PORT
 
+RUN npm run prisma:generate
+
 CMD ["npm", "run", "start:migrate:dev"]

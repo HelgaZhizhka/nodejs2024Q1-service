@@ -2,14 +2,13 @@ version: '3.8'
 services:
   api:
     container_name: api
-    image: helgazhyzhka/homelibrary-app:api
+    image: helgazhyzhka/homelibrary-app:latest
     restart: unless-stopped
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - '${APP_PORT}:${APP_PORT}'
-      - '5555:5555'  # for debug
     depends_on:
       - db
     environment:
@@ -21,7 +20,7 @@ services:
       - homelibrary
   db:
     container_name: db
-    image: helgazhyzhka/homelibrary-app:db
+    image: helgazhyzhka/homelibrary-db:latest
     restart: unless-stopped
     build:
       context: ./db
@@ -39,7 +38,9 @@ services:
       - homelibrary
 volumes:
   db-data:
+    driver: local
   db-logs:
+    driver: local
 networks:
   homelibrary:
     name: ${NETWORK}

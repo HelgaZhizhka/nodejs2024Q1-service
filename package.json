@@ -14,8 +14,6 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
-    "start:migrate:dev": "prisma migrate deploy && npm run start:dev",
-    "prisma:generate": "prisma generate",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "docker:up": "docker-compose up -d",

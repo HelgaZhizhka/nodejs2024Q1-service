@@ -14,6 +14,10 @@ cd nodejs2024Q1-service
 ```
 Checkout on branch sprint_2
 
+```
+git checkout sprint_2
+```
+
 ## Installing NPM modules
 
 ```

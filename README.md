@@ -6,12 +6,13 @@
 
 ## Downloading
 
-clone the repository form branch sprint_2
+clone the repository
 
 ```
 git clone https://github.com/HelgaZhizhka/nodejs2024Q1-service.git
 cd nodejs2024Q1-service
 ```
+Checkout on branch sprint_2
 
 ## Installing NPM modules
 

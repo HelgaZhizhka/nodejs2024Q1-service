@@ -73,7 +73,7 @@ export class TrackService {
     });
 
     for (const favorite of favoritesContainingTrack) {
-      const updatedTracks = favorite.artists.filter((id) => id !== trackId);
+      const updatedTracks = favorite.tracks.filter((id) => id !== trackId);
       await this.prisma.favorite.update({
         where: { favoriteId: favorite.favoriteId },
         data: { tracks: updatedTracks },
